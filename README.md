@@ -17,3 +17,11 @@ This application has been created as a test assignment for Integrify company.
 ## Deploying the app
 
 Here is the location where I have deployed my [Flask ToDo App](http://hdavoudy.pythonanywhere.com/) on pythonanywhere.com
+
+
+
+### A picture of the deployed app dashbaord
+
+
+
+<img src="https://github.com/havoud/flask-todo-app/blob/main/dashboard.png" width="50%" height="50%" />
