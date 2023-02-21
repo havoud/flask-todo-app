@@ -1,0 +1,144 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='dashboard.css')}}">
+{% endblock %}
+
+{% block content %}
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">To Do List</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <br>
+            <br>
+            <br>
+            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">Reports</a></li>
+            <li><a href="#">Analytics</a></li>
+            <li><a href="#">Export</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="">Nav item</a></li>
+            <li><a href="">Nav item again</a></li>
+            <li><a href="">One more nav</a></li>
+            <li><a href="">Another nav item</a></li>
+            <li><a href="">More navigation</a></li>
+          </ul>
+
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Welcome, {{ name }} </h1>
+
+          <div style="margin-top: 50px;" class="ui container">
+            <h1 class="ui center aligned header">To Do App</h1> <br>
+
+            {% if message %}
+            <p class="message"> {{ message | safe }}</p>
+            {% endif %}
+            <form class="ui form" action="/add" method="post">
+              <div class="form-group">
+                <label>Todo Title</label>
+                <input type="text" name="title" placeholder="Enter Todo..."><br>
+              </div>
+              <div class="form-group">
+                <textarea name="description" id="" cols="120" rows="5" placeholder="Describe Todo..."> </textarea><br>
+              </div>
+              <div class="form-group">
+                <label>Is the task completed?</label><br>
+                <input type="radio" name="complete" value="1"/> completed
+                <input type="radio" name="complete" value="2" checked/> not completed
+                <br>
+              </div>
+
+              <button class="ui blue button" type="submit">Add</button>
+            </form>
+
+            <hr>
+
+            {% for todo in todo_list %}
+            <div class="ui segment">
+              <p style="color:black;font-size:20px;">{{todo.id }} | {{ todo.title }} </p> <br>
+              <p style="color:black;font-size:15px;"> {{ todo.description }} </p> <br>
+              <p style="color:black;font-size:10px;"> Time created: {{todo.date_created}} </p>
+              <p style="color:black;font-size:10px;"> Time updated: {{todo.time_updated}} </p> <br>
+
+              {% if todo.complete == 2 %}
+              <span class="ui gray label">Not Complete</span>
+              {% else %}
+              <span class="ui green label">Completed</span>
+              {% endif %}
+
+              <a class="ui blue button" href="/update/{{ todo.id }}">Change Status</a>
+              <a class="ui red button" href="/delete/{{ todo.id }}">Delete</a> <br> <br>
+
+            </div>
+            {% endfor %}
+          </div>
+
+          <h2 class="sub-header">Section title</h2>
+          <div class="table-responsive">
+
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>id</th>
+                  <th>title</th>
+                  <th>date_created</th>
+                  <th>time_updated</th>
+                  <th>user</th>
+                </tr>
+              </thead>
+                                          {% for user in user_list %}
+
+                            {% for todo in todo_list %}
+
+              <tbody>
+              <tr>
+                <td>{{todo.id }}</td>
+                <td>{{ todo.title }}</td>
+                <td>{{todo.date_created}}</td>
+                <td>{{todo.time_updated}}</td>
+                <td>{{user.username}}</td>
+              </tr>
+              </tbody>
+                            {% endfor %}
+                            {% endfor %}
+
+            </table>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
